@@ -81,7 +81,6 @@ class GenerateFridaScriptAction : AnAction() {
             argList.joinToString(", ") { "$it: any" }}) {
                 DMLog.i("${info.simpleClassName}", `called $methodNameInScript with args: $logArgs`);
                 this.${methodNameInScript}(${argList.joinToString(", ")});
-                // 不打印返回值，因为返回类型是 void 或是构造函数
             };
     """.trimIndent()
         } else {
