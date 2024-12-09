@@ -5,7 +5,7 @@
 
     <!-- Public plugin name should be written in Title Case.
          Guidelines: https://plugins.jetbrains.com/docs/marketplace/plugin-overview-page.html#plugin-name -->
-    <name>Frida Plugin</name>
+    <name>Frida Idea Plugin</name>
 
     <!-- A displayed Vendor name or Organization ID displayed on the Plugins Page. -->
     <vendor email="285050252@qq.com" url="https://github.com/VictorChow">VictorChow</vendor>
@@ -26,9 +26,15 @@
     <!-- Extension points defined by the plugin.
          Read more: https://plugins.jetbrains.com/docs/intellij/plugin-extension-points.html -->
     <actions>
-        <action id="me.victor.fridaideaplugin.GenerateFridaScriptAction"
-                class="me.victor.fridaideaplugin.GenerateFridaScriptAction" text="Frida Script"
+        <action id="me.victor.fridaideaplugin.FridaScriptAction"
+                class="me.victor.fridaideaplugin.FridaScriptAction" text="Frida"
                 description="Genarate Frida Script">
+            <add-to-group group-id="EditorPopupMenu" anchor="last"/>
+        </action>
+
+        <action id="me.victor.fridaideaplugin.FridaTraceAction"
+                class="me.victor.fridaideaplugin.FridaTraceAction" text="Frida Trace"
+                description="Genarate Frida Trace Script">
             <add-to-group group-id="EditorPopupMenu" anchor="last"/>
         </action>
 

@@ -9,7 +9,7 @@ import com.intellij.psi.util.PsiTreeUtil
 import java.awt.Toolkit
 import java.awt.datatransfer.StringSelection
 
-class GenerateFridaScriptAction : AnAction() {
+class FridaScriptAction : AnAction() {
 
     override fun actionPerformed(e: AnActionEvent) {
         val editor = e.getData(CommonDataKeys.EDITOR) ?: return
@@ -29,7 +29,7 @@ class GenerateFridaScriptAction : AnAction() {
 
         val fridaScript = generateFridaScript(methodInfo)
         copyToClipboard(fridaScript)
-        Messages.showInfoMessage(project, "已复制到剪贴板", "Frida Script")
+        Messages.showInfoMessage(project, "已复制到剪贴板", "Frida")
     }
 
     private fun extractMethodInfo(method: PsiMethod): MethodInfo? {
