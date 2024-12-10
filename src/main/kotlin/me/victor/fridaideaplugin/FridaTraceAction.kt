@@ -29,7 +29,6 @@ class FridaTraceAction : AnAction() {
 
         val fridaTraceCommand = generateFridaTraceCommand(methodInfo)
         copyToClipboard(fridaTraceCommand)
-        Messages.showInfoMessage(project, "已复制到剪贴板", "Frida Trace Command")
     }
 
     private fun extractMethodInfo(method: PsiMethod): MethodInfo? {

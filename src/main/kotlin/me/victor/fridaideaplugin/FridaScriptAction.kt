@@ -29,7 +29,6 @@ class FridaScriptAction : AnAction() {
 
         val fridaScript = generateFridaScript(methodInfo)
         copyToClipboard(fridaScript)
-        Messages.showInfoMessage(project, "已复制到剪贴板", "Frida")
     }
 
     private fun extractMethodInfo(method: PsiMethod): MethodInfo? {
