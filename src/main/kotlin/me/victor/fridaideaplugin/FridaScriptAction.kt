@@ -2,7 +2,9 @@ package me.victor.fridaideaplugin
 
 class FridaScriptAction : BaseFridaAction() {
 
-    override fun generateContent(info: MethodInfo): String {
+    override fun selectOnClass(clazz: String) = null
+
+    override fun selectOnMethod(info: MethodInfo): String {
         val argCount = info.parameterTypes.size
         val argList = (1..argCount).map { "arg$it" }  // 生成 arg1, arg2, ..., argN
         val logArgs = argList.joinToString(", ") { "$it=\${$it}" } // 生成 "arg1=${arg1}, arg2=${arg2}"
@@ -20,24 +22,30 @@ class FridaScriptAction : BaseFridaAction() {
 
         // 判断方法是否为 void 类型，如果是，则不打印返回值
         return if (info.returnType == "void" || info.isConstructor) {
+            val logStatement = if (argCount == 0) "" else
+                """
+            DMLog.i("${info.simpleClassName}", `$methodNameInScript args: $logArgs`);
+    """.trimEnd()
             """
-            Java.use("${info.classFQN}").${methodNameInScript}${overloadString}.implementation = function(${
+        Java.use("${info.classFQN}").${methodNameInScript}${overloadString}.implementation = function(${
                 argList.joinToString(", ") { "$it: any" }
-            }) {
-                DMLog.i("${info.simpleClassName}", `called $methodNameInScript with args: $logArgs`);
-                this.${methodNameInScript}(${argList.joinToString(", ")});
-            };
+            }) {$logStatement
+            this.${methodNameInScript}(${argList.joinToString(", ")});
+        };
     """.trimIndent()
         } else {
+            val logStatement = if (argCount == 0) "" else
+                """
+            DMLog.i("${info.simpleClassName}", `${info.methodName} args: $logArgs`);
+    """.trimEnd()
             """
-            Java.use("${info.classFQN}").${methodNameInScript}${overloadString}.implementation = function(${
+        Java.use("${info.classFQN}").${methodNameInScript}${overloadString}.implementation = function(${
                 argList.joinToString(", ") { "$it: any" }
-            }) {
-                DMLog.i("${info.simpleClassName}", `called ${info.methodName} with args: $logArgs`);
-                const ret = this.${methodNameInScript}(${argList.joinToString(", ")});
-                DMLog.i("${info.simpleClassName}", "called ${info.methodName} return: " + ret);
-                return ret;
-            };
+            }) {$logStatement
+            const ret = this.${methodNameInScript}(${argList.joinToString(", ")});
+            DMLog.i("${info.simpleClassName}", "${info.methodName} return: " + ret);
+            return ret;
+        };
         """.trimIndent()
         }
     }
